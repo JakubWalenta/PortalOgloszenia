@@ -22,3 +22,14 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/*Podświetlenie wierszy tabeli i odstępy między przyciskami akcji CRUD*/
+tr:first-child {
+    background-color: #efefef;
+}
+tr:hover td {
+    background-color: #efefef;
+}
+.btn {
+    margin: 2px
+}
