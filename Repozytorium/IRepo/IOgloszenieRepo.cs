@@ -14,6 +14,7 @@ namespace Repozytorium.IRepo
         void UsunOgloszenie(int id);
         void Dodaj(Ogloszenie ogloszenie);
         void Aktualizuj(Ogloszenie ogloszenie);
+        IQueryable<Ogloszenie> PobierzStrone(int? page, int? pageSize);
         void SaveChanges();
     }
 }

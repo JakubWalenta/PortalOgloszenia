@@ -48,6 +48,20 @@ namespace Repozytorium.Repo
             _db.Entry(ogloszenie).State = EntityState.Modified;
         }
 
+        public IQueryable<Ogloszenie> PobierzStrone(int? page = 1, int? pageSize = 10)
+        {
+            if (pageSize == null || page == null)
+            {
+                page = 1;
+                pageSize = 10;
+            }
+            var ogloszenia = _db.Ogloszenia.OrderByDescending(o => o.DataDodania)
+                .Skip((page.Value - 1)*pageSize.Value)
+                .Take(pageSize.Value);
+
+            return ogloszenia;
+        }
+
         private void UsunPowiazaneOgloszenieKategoria(int idOgloszenia)
         {
             var list = _db.Ogloszenie_Kategoria.Where(o => o.OgloszenieId == idOgloszenia);

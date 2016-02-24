@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Repozytorium.Models;
 using Repozytorium.IRepo;
+using PagedList;
 
 namespace OGL.Controllers
 {
@@ -23,13 +24,48 @@ namespace OGL.Controllers
         }
 
         // GET: Ogloszenie
-        public ActionResult Index()
+        public ActionResult Index(int? page, string sortOrder)
         {
+            int currentPage = page ?? 1;
+            int naStronie = 5;
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.IdSort = String.IsNullOrEmpty(sortOrder) ? "IdAsc" : "";
+            ViewBag.DataDodaniaSort = sortOrder == "DataDodania" ? "DataDodaniaAsc" : "DataDodania";
+            ViewBag.TrescSort = sortOrder == "TrescAsc" ? "Tresc" : "TrescAsc";
+            ViewBag.TytulSort = sortOrder == "TytulAsc" ? "Tytul" : "TytulAsc";
+
             var ogloszenia = _repo.PobierzOgloszenia();
-            return View(ogloszenia);
+            switch (sortOrder)
+            {
+                case "DataDodania":
+                    ogloszenia = ogloszenia.OrderByDescending(s => s.DataDodania);
+                    break;
+                case "DataDodaniaAsc":
+                    ogloszenia = ogloszenia.OrderBy(s => s.DataDodania);
+                    break;
+                case "Tytul":
+                    ogloszenia = ogloszenia.OrderByDescending(s => s.Tytul);
+                    break;
+                case "TytulAsc":
+                    ogloszenia = ogloszenia.OrderBy(s => s.Tytul);
+                    break;
+                case "Tresc":
+                    ogloszenia = ogloszenia.OrderByDescending(s => s.Tresc);
+                    break;
+                case "TrescAsc":
+                    ogloszenia = ogloszenia.OrderBy(s => s.Tresc);
+                    break;
+                case "IdAsc":
+                    ogloszenia = ogloszenia.OrderBy(s => s.Id);
+                    break;
+                default:    // id descending
+                    ogloszenia = ogloszenia.OrderByDescending(s => s.Id);
+                    break;
+            }
+
+            return View(ogloszenia.ToPagedList<Ogloszenie>(currentPage, naStronie));
         }
-
-
 
         // GET: Ogloszenie/Details/5
         public ActionResult Details(int? id)
@@ -78,6 +114,7 @@ namespace OGL.Controllers
             }
             return View(ogloszenie);
         }
+
         [Authorize]
         // GET: Ogloszenie/Edit/5
         public ActionResult Edit(int? id)
@@ -170,10 +207,13 @@ namespace OGL.Controllers
         }
 
         // GET: Ogloszenie
-        public ActionResult Partial()
+        public ActionResult Partial(int? page)
         {
+            int currentPage = page ?? 1;
+            int naStronie = 5;
             var ogloszenia = _repo.PobierzOgloszenia();
-            return PartialView("Index", ogloszenia);
+            ogloszenia = ogloszenia.OrderByDescending(d => d.DataDodania);
+            return PartialView("Index", ogloszenia.ToPagedList<Ogloszenie>(currentPage, naStronie));
         }
 
         //protected override void Dispose(bool disposing)
