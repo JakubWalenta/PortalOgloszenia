@@ -1,4 +1,5 @@
-﻿@model Repozytorium.Models.Ogloszenie
+﻿@using Microsoft.AspNet.Identity
+@model Repozytorium.Models.Ogloszenie
 
 @{
     ViewBag.Tytul = "Szczegóły ogłoszenia nr: " + Model.Id;
@@ -47,6 +48,10 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edytuj", "Edit", new { id = Model.Id }, new {@class = "btn btn-primary"}) |
-    @Html.ActionLink("Wróć", "Index", null, new {@class = "btn btn-warning"})
+    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Pracownik") || Model.UzytkownikId == User.Identity.GetUserId()))
+    {
+        @Html.ActionLink("Edytuj", "Edit", new {id = Model.Id}, new {@class = "btn btn-primary"})
+        @:|
+    }
+    @Html.ActionLink("Wróć", "Index", null, new { @class = "btn btn-warning" })
 </p>

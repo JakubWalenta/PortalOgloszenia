@@ -67,6 +67,7 @@ namespace Repozytorium.Migrations
                         UserName = c.String(nullable: false, maxLength: 256),
                         Imie = c.String(),
                         Nazwisko = c.String(),
+                        Wiek = c.Int(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)

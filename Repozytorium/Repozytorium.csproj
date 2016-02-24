@@ -111,13 +111,9 @@
   <ItemGroup>
     <Compile Include="IRepo\IOglContext.cs" />
     <Compile Include="IRepo\IOgloszenieRepo.cs" />
-    <Compile Include="Migrations\201602231728503_startowa.cs" />
-    <Compile Include="Migrations\201602231728503_startowa.Designer.cs">
-      <DependentUpon>201602231728503_startowa.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602231742580_1.cs" />
-    <Compile Include="Migrations\201602231742580_1.Designer.cs">
-      <DependentUpon>201602231742580_1.cs</DependentUpon>
+    <Compile Include="Migrations\201602241547259_startowa.cs" />
+    <Compile Include="Migrations\201602241547259_startowa.Designer.cs">
+      <DependentUpon>201602241547259_startowa.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Kategoria.cs" />
@@ -130,11 +126,8 @@
     <Compile Include="Repo\OgloszenieRepo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201602231728503_startowa.resx">
-      <DependentUpon>201602231728503_startowa.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602231742580_1.resx">
-      <DependentUpon>201602231742580_1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602241547259_startowa.resx">
+      <DependentUpon>201602241547259_startowa.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

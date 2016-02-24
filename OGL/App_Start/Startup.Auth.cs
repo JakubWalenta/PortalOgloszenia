@@ -58,6 +58,8 @@ namespace OGL
             //   appId: "",
             //   appSecret: "");
 
+            app.UseGoogleAuthentication();
+
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
             //    ClientId = "",

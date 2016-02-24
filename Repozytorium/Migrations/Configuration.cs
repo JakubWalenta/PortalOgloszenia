@@ -40,6 +40,13 @@ namespace Repozytorium.Migrations
                 role.Name = "Admin";
                 roleManager.Create(role);
             }
+
+            if (!roleManager.RoleExists("Pracownik"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Pracownik";
+                roleManager.Create(role);
+            }
         }
 
         private void SeedUsers(OglContext context)
@@ -51,7 +58,27 @@ namespace Repozytorium.Migrations
 
                 var user = new Uzytkownik { UserName = "Admin", Wiek = 12};
 
-                var adminresult = manager.Create(user, "12345678");
+                var adminresult = manager.Create(user, "Pa$$word");
+
+                if (adminresult.Succeeded)
+                    manager.AddToRole(user.Id, "Admin");
+            }
+            if (!context.Users.Any(u => u.UserName == "Marek"))
+            {
+
+                var user = new Uzytkownik { UserName = "marek@AspNetMvc.pl", Wiek = 12 };
+
+                var adminresult = manager.Create(user, "Pa$$word");
+
+                if (adminresult.Succeeded)
+                    manager.AddToRole(user.Id, "Pracownik");
+            }
+            if (!context.Users.Any(u => u.UserName == "Prezes"))
+            {
+
+                var user = new Uzytkownik { UserName = "prezes@AspNetMvc.pl", Wiek = 12 };
+
+                var adminresult = manager.Create(user, "Pa$$word");
 
                 if (adminresult.Succeeded)
                     manager.AddToRole(user.Id, "Admin");
