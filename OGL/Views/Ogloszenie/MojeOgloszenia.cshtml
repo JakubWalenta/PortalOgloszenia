@@ -49,18 +49,11 @@
                 @Html.DisplayFor(modelItem => item.DataDodania)
             </td>
             <td>
-                @Html.ActionLink("Szczegóły", "Details", new {id = item.Id}, new {@class = "btn btn-primary"})
-                @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Pracownik")))
-                {
-                    @:|
-                    @Html.ActionLink("Edytuj", "Edit", new {id = item.Id}, new {@class = "btn btn-warning"})
-                    if (User.IsInRole("Admin"))
-                    {
-                        @:|
-                        @Html.ActionLink("Usuń", "Delete", new {id = item.Id}, new {@class = "btn btn-danger"})
-                        ;
-                    }
-                }
+                @Html.ActionLink("Szczegóły", "Details", new {id = item.Id}, new {@class = "btn btn-primary"}) |
+                @Html.ActionLink("Edytuj", "Edit", new {id = item.Id}, new {@class = "btn btn-warning"}) |
+                @Html.ActionLink("Dodaj kategorie", "DodajKategorie", new { id = item.Id }, new { @class = "btn btn-success" }) |
+                @Html.ActionLink("Usuń", "Delete", new {id = item.Id}, new {@class = "btn btn-danger"})
+                        
             </td>
         </tr>
     }
