@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using Microsoft.AspNet.Identity;
 using Repozytorium.Models;
 using Repozytorium.IRepo;
@@ -36,6 +37,7 @@ namespace OGL.Controllers
             ViewBag.TytulSort = sortOrder == "TytulAsc" ? "Tytul" : "TytulAsc";
 
             var ogloszenia = _repo.PobierzOgloszenia();
+          
             switch (sortOrder)
             {
                 case "DataDodania":
@@ -64,6 +66,18 @@ namespace OGL.Controllers
                     break;
             }
 
+            return View(ogloszenia.ToPagedList<Ogloszenie>(currentPage, naStronie));
+        }
+        [OutputCache (Duration = 1000)]
+        [Authorize]
+        public ActionResult MojeOgloszenia(int? page)
+        {
+            int currentPage = page ?? 1;
+            int naStronie = 5;
+            string idUser = User.Identity.GetUserId();
+
+            var ogloszenia = _repo.PobierzOgloszenia();
+            ogloszenia = ogloszenia.OrderByDescending(o => o.DataDodania).Where(d => d.UzytkownikId == idUser);
             return View(ogloszenia.ToPagedList<Ogloszenie>(currentPage, naStronie));
         }
 
@@ -105,7 +119,7 @@ namespace OGL.Controllers
                 {
                     _repo.Dodaj(ogloszenie);
                     _repo.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("MojeOgloszenia");
                 }
                 catch (Exception)
                 {
